@@ -10,12 +10,10 @@ import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableRabbit
-@EnableConfigurationProperties(GmaSessionConfig.class)
 public class GramAgentApplication {
 
 	public static void main(String[] args) {
@@ -48,46 +46,5 @@ public class GramAgentApplication {
         .with(rmqConfig.getRoutingKey());
   }
 
-
-  /* Bean for rabbitTemplate */
-  // @Bean
-  // public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
-  // final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-  // rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
-  // return rabbitTemplate;
-  // }
-
-  // @Bean
-  // public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
-  // return new Jackson2JsonMessageConverter();
-  // }
-  //
-  // @Bean
-  // public MappingJackson2MessageConverter consumerJackson2MessageConverter() {
-  // return new MappingJackson2MessageConverter();
-  // }
-
-  // @Bean
-  // public DefaultMessageHandlerMethodFactory messageHandlerMethodFactory() {
-  // DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
-  // factory.setMessageConverter(consumerJackson2MessageConverter());
-  // return factory;
-  // }
-  // @Bean
-  // public MappingJackson2MessageConverter jackson2Converter() {
-  // MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-  // return converter;
-  // }
-  //
-  // @Bean
-  // public DefaultMessageHandlerMethodFactory myHandlerMethodFactory() {
-  // DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
-  // factory.setMessageConverter(jackson2Converter());
-  // return factory;
-  // }
-  // @Override
-  // public void configureRabbitListeners(RabbitListenerEndpointRegistrar registrar) {
-  // registrar.setMessageHandlerMethodFactory(myHandlerMethodFactory());
-  // }
 
 }
