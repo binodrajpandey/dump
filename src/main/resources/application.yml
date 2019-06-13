@@ -1,0 +1,17 @@
+spring:
+ rabbitmq:
+  host: localhost
+  port: 5672
+  username: bebit
+  password: bebit
+  listener:
+   simple:
+    concurrency: 4
+    max-concurrency: 8
+    initial-interval: 5000
+
+# Message Queue specific configs for gma_session
+gma-session:
+ exchange-name: gma_session
+ queue-name: gma_session
+ routing-key: gma_session
