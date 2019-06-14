@@ -1,0 +1,23 @@
+{
+  "utc_time_period": -1,
+  "app_user_id": 1,
+  "client_id": 1,
+  "conversion_ids": [
+    1101,
+    1102
+  ],
+  "start_time_sec": 1559142000,
+  "login_session_key": "980y42ykjovjv9msa87lfln16f5w2lmt",
+  "uuid": "6fe2cfef-33dd-4dfb-b951-7289da6335e7-8",
+  "sub_cnds": [
+      {
+        "type": 1,
+        "id": 596,
+        "word_match_method": 1,
+        "values": [
+          "hoge"
+        ]
+      }
+    ],
+  "end_time_sec": 1559816944
+}
