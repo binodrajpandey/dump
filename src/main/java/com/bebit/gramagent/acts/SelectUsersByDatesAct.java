@@ -104,5 +104,13 @@ public class SelectUsersByDatesAct {
     this.endTimeSec = endTimeSec;
   }
 
+  @Override
+  public String toString() {
+    return "SelectUsersByDatesAct [utcTimePeriod=" + utcTimePeriod + ", appUserId=" + appUserId
+        + ", clientId=" + clientId + ", conversionIds=" + conversionIds + ", startTimeSec="
+        + startTimeSec + ", loginSessionKey=" + loginSessionKey + ", uuid=" + uuid + ", subCnds="
+        + subCnds + ", endTimeSec=" + endTimeSec + "]";
+  }
+
 
 }

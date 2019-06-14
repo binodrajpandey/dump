@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SelectUsersListener {
   Logger logger = LoggerFactory.getLogger(SelectUsersListener.class);
+  String queue;
 
-  @RabbitListener(queues = "gma_session")
+  @RabbitListener(queues = "${gma-session.queue-name}")
   public void receiveMessage(SelectUsersByDatesAct selectUsersByDatesAct) {
     logger.info("message received: {}",selectUsersByDatesAct);
   }
