@@ -5,6 +5,8 @@ import com.bebit.gramagent.acts.SelectUsersByDatesAct;
 import com.bebit.gramagent.service.BrokerService;
 import com.bebit.gramagent.service.Client;
 import com.bebit.gramagent.service.ClientService;
+import com.bebit.gramagent.service.ErrorPublisher;
+import com.bebit.gramagent.service.exception.AppException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,13 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+/**
+ * Listens the SelectUsers Request.
+ * 
+ * @author binodraj-pandey
+ *
+ */
+
 @Service
 public class SelectUsersListener {
   private static final Logger logger = LoggerFactory.getLogger(SelectUsersListener.class);
@@ -26,23 +35,42 @@ public class SelectUsersListener {
   private BrokerService brokerService;
   @Autowired
   private ClientService clientService;
+  @Autowired
+  private ErrorPublisher errorPublisher;
+
+  /**
+   * Listen SelectUsersByDates request from given queue as indicated in application configuration
+   * parameter.
+   * 
+   * @param retQueName
+   * @param selectUsersByDatesAct
+   */
 
   @RabbitListener(queues = "${gma-session.queue-name}")
   public void receiveMessage(@Header("ret_queue_name") String retQueName,
       SelectUsersByDatesAct selectUsersByDatesAct) {
     logger.info("message received: with header: {} and payload:{}", retQueName,
         selectUsersByDatesAct);
-    validateSelectUsersByDate(selectUsersByDatesAct);
-
-
     boolean created = brokerService.createResponseQueue(retQueName);
     if (created) {
-      // TODO process the request and send the message to the queue
-      MessageProperties properties =
-          new MessageProperties();
-      properties.setContentType("application/json");
-      rabbitTemplate.send(ApplicationConstant.RMQ_RET_EXCHANGE_NAME, retQueName,
-          MessageBuilder.withBody("this is response".getBytes()).andProperties(properties).build());
+      try {
+        validateSelectUsersByDate(selectUsersByDatesAct);
+        // TODO process the request and send the message to the queue
+        MessageProperties properties =
+            new MessageProperties();
+        properties.setContentType("application/json");
+        rabbitTemplate.send(ApplicationConstant.RMQ_RET_EXCHANGE_NAME, retQueName,
+            MessageBuilder.withBody("this is response".getBytes()).andProperties(properties)
+                .build());
+
+      } catch (AppException ex) {
+        if (ex.getErrorCode() != null) {
+          logger.error("{}", ex);
+        }
+        errorPublisher.publish(selectUsersByDatesAct, ex,
+            retQueName);
+      }
+
     }
 
 
@@ -107,7 +135,7 @@ public class SelectUsersListener {
     String errorMessage = stringBuilder.toString();
     if (!errorMessage.isEmpty()) {
       logger.error("Invalid Request Parameters: {}", errorMessage);
-      throw new RuntimeException(errorMessage);
+      throw new AppException(ApplicationConstant.INVALID_PARAMETER, errorMessage);
     }
   }
 }
