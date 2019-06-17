@@ -33,7 +33,8 @@ public class SelectUsersByDateActTest {
     MessageProperties properties =
         new MessageProperties();
     properties.setContentType("application/json");
-    rabbitTemplate.sendAndReceive(gmaSessionConfig.getExchangeName(),
+    properties.getHeaders().put("ret_queue_name", "ret_queue_name");
+    rabbitTemplate.send(gmaSessionConfig.getExchangeName(),
         gmaSessionConfig.getRoutingKey(),
         MessageBuilder.withBody(json.getBytes()).andProperties(properties).build());
     // TODO we should be able to receive acknowledgement from return queue
