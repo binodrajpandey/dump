@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SelectUsersListener {
-  Logger logger = LoggerFactory.getLogger(SelectUsersListener.class);
+  private static final Logger logger = LoggerFactory.getLogger(SelectUsersListener.class);
   @Autowired
   private RabbitTemplate rabbitTemplate;
   @Autowired
