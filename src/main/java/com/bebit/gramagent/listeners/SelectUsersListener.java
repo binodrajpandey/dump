@@ -65,7 +65,7 @@ public class SelectUsersListener {
 
       } catch (AppException ex) {
         if (ex.getErrorCode() != null) {
-          logger.error("{}", ex);
+          logger.error("{}", ex.getMessage());
         }
         errorPublisher.publish(selectUsersByDatesAct, ex,
             retQueName);

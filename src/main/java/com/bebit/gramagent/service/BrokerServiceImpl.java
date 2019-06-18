@@ -26,24 +26,24 @@ public class BrokerServiceImpl implements BrokerService {
   @Override
   public boolean createResponseQueue(String name) {
     try {
+      Exchange exchange =
+          ExchangeBuilder.directExchange(ApplicationConstant.RMQ_RET_EXCHANGE_NAME).durable(true)
+              .build();
+      admin.declareExchange(exchange);
       // Queue option
       Map<String, Object> queue_args = new HashMap<String, Object>();
       // delete queue after specified time
       queue_args.put("x-expires", ApplicationConstant.RMQ_X_EXPIRES_MSEC);
       Queue queue = new Queue(name, true, false, false, queue_args);
       admin.declareQueue(queue);
-
-      Exchange exchange =
-          ExchangeBuilder.directExchange(ApplicationConstant.RMQ_RET_EXCHANGE_NAME).durable(true)
-              .build();
-      admin.declareExchange(exchange);
-
-      Binding binding = new Binding(name, DestinationType.QUEUE, name, name,
+      Binding binding =
+          new Binding(name, DestinationType.QUEUE, ApplicationConstant.RMQ_RET_EXCHANGE_NAME, name,
           new HashMap<String, Object>());
       admin.declareBinding(binding);
       return true;
     } catch (Exception ex) {
-      logger.error("Couldn't create queue: {}", name);
+      logger.error("Problem in creating queue/exchange or binding them: {}", name, ex.getMessage());
+      ex.printStackTrace();
       return false;
     }
 

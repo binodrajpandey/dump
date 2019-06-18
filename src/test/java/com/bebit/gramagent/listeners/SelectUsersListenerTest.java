@@ -5,6 +5,7 @@ import com.bebit.gramagent.acts.SelectUsersByDatesAct;
 import com.bebit.gramagent.service.BrokerService;
 import com.bebit.gramagent.service.Client;
 import com.bebit.gramagent.service.ClientService;
+import com.bebit.gramagent.service.ErrorPublisher;
 import com.bebit.gramagent.util.FileUtil;
 import com.bebit.gramagent.util.JsonUtil;
 
@@ -31,6 +32,9 @@ public class SelectUsersListenerTest {
   private ClientService clientService;
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
+
+  @Mock
+  private ErrorPublisher errorPublisher;
   @InjectMocks
   private SelectUsersListener selectUsersListener;
 
@@ -41,21 +45,13 @@ public class SelectUsersListenerTest {
   }
   @Test
   public void receiveMessageWhenRequestHasMissingValues() {
-    expectedException.expect(RuntimeException.class);
     String retQueName = "anyqueue";
+    Mockito.when(brokerService.createResponseQueue(retQueName)).thenReturn(true);
     SelectUsersByDatesAct selectUsersByDatesAct = new SelectUsersByDatesAct();
     selectUsersListener.receiveMessage(retQueName, selectUsersByDatesAct);
-    expectedException.expectMessage("uuid null or empty.");
-    expectedException.expectMessage("client_id is null.");
-    expectedException.expectMessage("app_user_id is null");
-    expectedException.expectMessage("login_session_key is null or empty");
-    expectedException.expectMessage("conversion id must be present");
-    expectedException.expectMessage("start_time_sec must be present");
-    expectedException.expectMessage("end_time_sec must be present");
-    expectedException.expectMessage("too long span. must be less than or equal to 366 days.");
-    expectedException.expectMessage("utc_time_period must be present");
-    expectedException.expectMessage("utc_time_period must be [-1,23].");
-
+    Mockito.verify(errorPublisher, Mockito.times(1)).publish(Mockito.eq(selectUsersByDatesAct),
+        Mockito.any(),
+        Mockito.eq(retQueName));
 
   }
 

@@ -104,6 +104,80 @@ public class SelectUsersByDatesAct {
     this.endTimeSec = endTimeSec;
   }
 
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((appUserId == null) ? 0 : appUserId.hashCode());
+    result = prime * result + ((clientId == null) ? 0 : clientId.hashCode());
+    result = prime * result + ((conversionIds == null) ? 0 : conversionIds.hashCode());
+    result = prime * result + ((endTimeSec == null) ? 0 : endTimeSec.hashCode());
+    result = prime * result + ((loginSessionKey == null) ? 0 : loginSessionKey.hashCode());
+    result = prime * result + ((startTimeSec == null) ? 0 : startTimeSec.hashCode());
+    result = prime * result + ((subCnds == null) ? 0 : subCnds.hashCode());
+    result = prime * result + ((utcTimePeriod == null) ? 0 : utcTimePeriod.hashCode());
+    result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    SelectUsersByDatesAct other = (SelectUsersByDatesAct) obj;
+    if (appUserId == null) {
+      if (other.appUserId != null)
+        return false;
+    } else if (!appUserId.equals(other.appUserId))
+      return false;
+    if (clientId == null) {
+      if (other.clientId != null)
+        return false;
+    } else if (!clientId.equals(other.clientId))
+      return false;
+    if (conversionIds == null) {
+      if (other.conversionIds != null)
+        return false;
+    } else if (!conversionIds.equals(other.conversionIds))
+      return false;
+    if (endTimeSec == null) {
+      if (other.endTimeSec != null)
+        return false;
+    } else if (!endTimeSec.equals(other.endTimeSec))
+      return false;
+    if (loginSessionKey == null) {
+      if (other.loginSessionKey != null)
+        return false;
+    } else if (!loginSessionKey.equals(other.loginSessionKey))
+      return false;
+    if (startTimeSec == null) {
+      if (other.startTimeSec != null)
+        return false;
+    } else if (!startTimeSec.equals(other.startTimeSec))
+      return false;
+    if (subCnds == null) {
+      if (other.subCnds != null)
+        return false;
+    } else if (!subCnds.equals(other.subCnds))
+      return false;
+    if (utcTimePeriod == null) {
+      if (other.utcTimePeriod != null)
+        return false;
+    } else if (!utcTimePeriod.equals(other.utcTimePeriod))
+      return false;
+    if (uuid == null) {
+      if (other.uuid != null)
+        return false;
+    } else if (!uuid.equals(other.uuid))
+      return false;
+    return true;
+  }
+
   @Override
   public String toString() {
     return "SelectUsersByDatesAct [utcTimePeriod=" + utcTimePeriod + ", appUserId=" + appUserId

@@ -15,29 +15,12 @@ public class AppException extends RuntimeException {
    */
   private Integer errorCode;
 	
-	public AppException(int errorCode) {
-		this.errorCode = errorCode;
-	}
-
-	public AppException(int errorCode, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-		this.errorCode = errorCode;
-	}
-
-	public AppException(int errorCode, String message, Throwable cause) {
-		super(message, cause);
-		this.errorCode = errorCode;
-	}
 
 	public AppException(int errorCode, String message) {
 		super(message);
 		this.errorCode = errorCode;
 	}
 
-	public AppException(int errorCode, Throwable cause) {
-		super(cause);
-		this.errorCode = errorCode;
-	}
 
   public Integer getErrorCode() {
     return errorCode;
